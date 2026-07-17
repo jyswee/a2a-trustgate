@@ -1,0 +1,8 @@
+node_modules/
+src/
+scripts/
+dist/
+.a2a/
+.DS_Store
+*.log
+*.tgz

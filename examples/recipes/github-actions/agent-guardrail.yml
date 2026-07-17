@@ -1,0 +1,41 @@
+# Agent guardrail for CI — screen a batch of commands before they run.
+#
+# Drop this at .github/workflows/agent-guardrail.yml. It fails the job if the gate
+# blocks any line in commands.txt, so an agent-authored change can't merge a
+# destructive or injected command.
+#
+# Set repo secret A2A_API_KEY (an a2a_… key). Screening only inspects — nothing runs.
+
+name: agent-guardrail
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  screen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install A2A TrustGate
+        run: npm install -g a2a-trustgate
+
+      - name: Screen commands
+        env:
+          A2A_API_KEY: ${{ secrets.A2A_API_KEY }}
+        run: |
+          fail=0
+          while IFS= read -r cmd; do
+            case "$cmd" in ''|\#*) continue;; esac
+            a2a eval "$cmd" --json >/dev/null 2>&1; rc=$?
+            case "$rc" in
+              0) echo "::notice::allow  $cmd";;
+              2) echo "::warning::review $cmd";;
+              *) echo "::error::BLOCK  $cmd"; fail=1;;
+            esac
+          done < commands.txt
+          exit $fail

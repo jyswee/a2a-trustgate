@@ -1,0 +1,50 @@
+{
+  "name": "a2a-trustgate",
+  "version": "1.5.10",
+  "description": "A2A TrustGate CLI — Safety, compliance, and governance for AI agents. Screen every action before it executes.",
+  "mcpName": "io.github.jyswee/a2a-trustgate",
+  "bin": {
+    "a2a": "bin/cli.js",
+    "a2a-trustgate": "bin/cli.js",
+    "a2a-mcp": "bin/mcp.js"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "sync-manifest": "node scripts/sync-manifest.js",
+    "prepublishOnly": "npm run sync-manifest && npm run build"
+  },
+  "keywords": [
+    "a2a",
+    "trustgate",
+    "ai-safety",
+    "firewall",
+    "agent",
+    "cli",
+    "llm",
+    "guardrails",
+    "compliance",
+    "audit",
+    "cursor",
+    "cline",
+    "windsurf",
+    "aider",
+    "codex",
+    "langchain",
+    "crewai",
+    "mcp",
+    "openai"
+  ],
+  "author": "Joe Wee <joe@tyga.cloud>",
+  "license": "SEE LICENSE IN LICENSE",
+  "homepage": "https://a2ainfrastructure.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jyswee/a2a-trustgate.git"
+  },
+  "bugs": {
+    "url": "https://a2ainfrastructure.com/feedback"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

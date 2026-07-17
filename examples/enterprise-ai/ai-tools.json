@@ -1,0 +1,26 @@
+{
+  "$comment": "The AI tools your staff already use. Register each one, then screen the actions bound for it against its data policy. Shape only — real tools are added via `a2a ai-tools add`; the per-tool policy (blockDataClasses/reviewDataClasses) is set in the dashboard AI-tools panel. Data classes the gate detects: secret, pci, pii, confidential, bulk-export. An UNREGISTERED tool is held for review (shadow AI). A prompt is bound to a tool with `a2a eval \"…\" --tool ChatGPT`.",
+  "tools": [
+    {
+      "name": "ChatGPT",
+      "vendor": "OpenAI",
+      "surface": "web + desktop",
+      "blockDataClasses": ["secret", "pci", "pii", "confidential"],
+      "reviewDataClasses": ["bulk-export"]
+    },
+    {
+      "name": "Claude",
+      "vendor": "Anthropic",
+      "surface": "web + desktop",
+      "blockDataClasses": ["secret", "pci", "pii"],
+      "reviewDataClasses": ["confidential", "bulk-export"]
+    },
+    {
+      "name": "GitHub Copilot",
+      "vendor": "GitHub",
+      "surface": "IDE",
+      "blockDataClasses": ["secret", "pci"],
+      "reviewDataClasses": ["confidential"]
+    }
+  ]
+}

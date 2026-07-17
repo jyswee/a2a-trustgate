@@ -1,0 +1,14 @@
+# Sample commands an agent might run against network devices.
+# Each line is screened with `a2a eval`. Lines starting with # are ignored.
+# Mix of routine, sensitive, and outright dangerous — see how the gate sorts them.
+
+show interfaces status
+show running-config
+ping 8.8.8.8 count 4
+configure terminal ; interface Gig0/1 ; shutdown
+clear counters
+reload in 5
+erase startup-config
+write erase
+no ip access-list extended BLOCK-ALL
+copy running-config tftp://10.0.0.9/backup.cfg

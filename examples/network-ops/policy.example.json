@@ -1,0 +1,7 @@
+{
+  "$comment": "Example per-device policy template. Apply with: a2a device policy DEVICE-ID --mode strict --require-approval --max 50  (--max is commands per hour)",
+  "mode": "strict",
+  "requireApproval": true,
+  "maxCommandsPerHour": 50,
+  "notes": "Strict mode routes anything Gate 1 can't clear outright to the approval queue. maxCommandsPerHour caps sustained activity per device — once the hourly budget is exceeded, further actions are held for review (a runaway-automation circuit-breaker). Tune per role — a core router should be stricter than a lab switch."
+}

@@ -1,0 +1,55 @@
+{
+  "$comment": "Illustrative shape of one row from a2a audit export --format json. A genuine OCSF Detection Finding [class_uid 2004, category_uid 2] — ingests into Splunk / Sentinel / Chronicle / Elastic with no custom parser. Your real export comes from: a2a audit export --format json (envelope) or --format ndjson (one finding per line).",
+  "activity_id": 1,
+  "activity_name": "Create",
+  "category_uid": 2,
+  "category_name": "Findings",
+  "class_uid": 2004,
+  "class_name": "Detection Finding",
+  "type_uid": 200401,
+  "type_name": "Detection Finding: Create",
+  "time": 1784207561000,
+  "severity_id": 4,
+  "severity": "High",
+  "status_id": 1,
+  "status": "New",
+  "disposition_id": 2,
+  "disposition": "Blocked",
+  "action_id": 2,
+  "action": "Denied",
+  "message": "Destructive mutation of an audit/compliance table",
+  "metadata": {
+    "product": { "name": "A2A TrustGate", "vendor_name": "Tyga.Cloud Ltd" },
+    "version": "1.1.0",
+    "profiles": ["security_control"],
+    "labels": ["tenant:acme-bank"]
+  },
+  "finding_info": {
+    "uid": "task_9f21ac",
+    "title": "AI-agent action blocked (gate1)",
+    "desc": "Destructive mutation of an audit/compliance table",
+    "created_time": 1784207561000,
+    "types": ["AI Agent Action"]
+  },
+  "actor": {
+    "user": { "name": "coder", "type": "Agent" },
+    "session": { "uid": "task_9f21ac" }
+  },
+  "api": {
+    "operation": "evaluate",
+    "request": { "data": "DELETE FROM audit_log WHERE id < 10000" }
+  },
+  "observables": [
+    { "name": "action.command", "type": "Command Line", "type_id": 99, "value": "DELETE FROM audit_log WHERE id < 10000" },
+    { "name": "actor.user.name", "type": "User Name", "type_id": 4, "value": "coder" }
+  ],
+  "evidences": [
+    { "gate": "gate1", "allowed": false, "reason": "Destructive mutation of an audit/compliance table" }
+  ],
+  "unmapped": {
+    "backend": "tyga",
+    "context": null,
+    "pipeline": null
+  },
+  "content_hash": "<sha256 of this record, added at export for tamper evidence>"
+}

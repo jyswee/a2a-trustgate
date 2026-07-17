@@ -1,0 +1,12 @@
+# Actions that touch student education records (FERPA / UK-GDPR). Disclosure to a
+# third party without consent is blocked; any movement of records is held for review;
+# lawful, consented, or anonymised handling is allowed. Screening logs every access.
+
+email the student transcripts to the external scholarship committee
+upload the class gradebook to ChatGPT to write feedback
+share a student's disciplinary record with their employer
+post the exam results with student names publicly on the notice board
+release the transcripts to the parent with written consent on file
+export the gradebook to the department shared drive
+summarise anonymised course-evaluation feedback into three themes
+draft a marking rubric for the essay assignment

@@ -1,0 +1,13 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      apiKey:
+        type: string
+        description: A2A TrustGate API key (a2a_...). Optional; without one the server starts and can guide signup, but most tools require a key to call the firewall.
+      baseUrl:
+        type: string
+        description: Base URL of the A2A TrustGate API. Defaults to https://a2ainfrastructure.com.
+  commandFunction: |-
+    (config) => ({ command: "a2a", args: ["mcp-serve"], env: Object.assign({}, config.apiKey ? { A2A_API_KEY: config.apiKey } : {}, config.baseUrl ? { A2A_URL: config.baseUrl } : {}) })

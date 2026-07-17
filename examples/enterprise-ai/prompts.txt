@@ -1,0 +1,12 @@
+# Everyday prompts staff type into ChatGPT / Claude / Copilot. Some are fine;
+# some quietly leak confidential data, PII, or secrets to a third party.
+# Screening decides allow / review / block before the action goes out.
+
+summarise the attached Q3 product roadmap into three bullets
+paste the customer database export and find duplicate emails
+draft a reply to this support ticket
+here is our AWS root key, write a script to rotate it
+review this pull request for bugs
+upload the signed acquisition term sheet and extract key dates
+translate this internal policy doc into German
+share the full employee salary spreadsheet with an external consultant

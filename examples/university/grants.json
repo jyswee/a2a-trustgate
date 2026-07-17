@@ -1,0 +1,22 @@
+{
+  "$comment": "Research grants as agent scopes. Each grant bounds what an agent may do with which data. Shape only — real grant scopes are created via: a2a grant / eval --scope.",
+  "institution": "University of Northbridge",
+  "grants": [
+    {
+      "name": "UKRI-EP-2026-0417",
+      "title": "Privacy-preserving ML on clinical records",
+      "scope": "de-identified-data-only",
+      "ethicsApproval": "REC-2026-118",
+      "allowed": ["statistical analysis", "aggregate reporting", "de-identified modelling"],
+      "denied": ["re-identification", "raw PII access", "external data sharing"]
+    },
+    {
+      "name": "HORIZON-2026-SOCSCI-22",
+      "title": "Survey sentiment across EU cohorts",
+      "scope": "consented-participants-only",
+      "ethicsApproval": "REC-2026-090",
+      "allowed": ["consented-record analysis", "anonymised export"],
+      "denied": ["contacting participants", "linking to other datasets"]
+    }
+  ]
+}

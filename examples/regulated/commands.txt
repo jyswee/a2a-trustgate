@@ -1,0 +1,10 @@
+# A batch of actions in a regulated environment. Every screening — allow or block,
+# with reasoning — lands in the append-only audit trail you export for an auditor.
+
+SELECT COUNT(*) FROM transactions WHERE date > '2026-01-01'
+export customer PII to third-party-marketing.csv
+DELETE FROM audit_log WHERE id < 10000
+generate quarterly compliance report
+UPDATE kyc_status SET verified = true WHERE user_id = 4471
+transfer 250000 from settlement to operating account
+grant admin role to contractor@external.test

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#
+# A2A pre-commit hook — screen staged shell scripts before they land in a commit.
+#
+# Install:
+#   cp examples/recipes/pre-commit/pre-commit .git/hooks/pre-commit
+#   chmod +x .git/hooks/pre-commit
+#
+# Needs: a2a (npm install -g a2a-trustgate) + an activated key.
+# Blocks the commit if the gate blocks any added shell line. Screening only inspects.
+
+set -uo pipefail
+command -v a2a >/dev/null 2>&1 || { echo "a2a not found — skipping guardrail"; exit 0; }
+
+# Added (+) lines from staged .sh files, minus the diff's own +++ header.
+mapfile -t lines < <(git diff --cached -U0 -- '*.sh' | grep -E '^\+' | grep -vE '^\+\+\+' | sed 's/^\+//')
+
+fail=0
+for line in "${lines[@]}"; do
+  [ -z "${line// }" ] && continue
+  case "$line" in \#*) continue;; esac
+  a2a eval "$line" --json >/dev/null 2>&1; rc=$?
+  if [ "$rc" -eq 1 ]; then
+    echo "✗ BLOCK  $line"
+    fail=1
+  fi
+done
+
+if [ "$fail" -eq 1 ]; then
+  echo
+  echo "Commit blocked: a staged command was flagged by the gate."
+  echo "Override (not recommended):  git commit --no-verify"
+  exit 1
+fi
+exit 0

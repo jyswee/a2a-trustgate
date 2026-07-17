@@ -1,0 +1,12 @@
+# Agent requests against a rights catalogue. Some are licensed uses; some are
+# rights grabs (AI-training on opt-out works, out-of-territory, no attribution).
+# Screening decides allow / review / block — and logs every access.
+
+play a 15-second clip of "Midnight Signal" in an editorial review
+use "Paper Cities" cover art in an internal moodboard with credit
+train a music model on the entire aurora-music-library
+sync "Paper Cities" to a paid advertisement in Japan
+reproduce the "Paper Cities" lyrics in a fan blog with attribution
+scrape and cache all sound recordings for a recommendation dataset
+license "Midnight Signal" for a UK short film, non-exclusive
+remove attribution metadata before redistribution

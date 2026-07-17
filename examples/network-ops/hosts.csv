@@ -1,0 +1,8 @@
+name,host,vendor,model,role,siteCode
+core-rtr-1,10.0.0.1,cisco,ASR-9010,core-router,LON1
+core-rtr-2,10.0.0.2,cisco,ASR-9010,core-router,LON1
+dist-sw-1,10.0.1.10,arista,7280R,distribution,LON1
+edge-fw-1,10.0.2.1,paloalto,PA-5220,firewall,LON1
+tor-sw-14,10.1.14.2,juniper,QFX5120,top-of-rack,FRA2
+tor-sw-15,10.1.15.2,juniper,QFX5120,top-of-rack,FRA2
+mgmt-sw-1,10.9.0.5,cisco,C9300,management,FRA2

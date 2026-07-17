@@ -1,0 +1,58 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "io.github.jyswee/a2a-trustgate",
+  "description": "A2A TrustGate: 4-gate firewall that screens every AI-agent action before it runs. 49 tools.",
+  "repository": {
+    "url": "https://github.com/jyswee/a2a-trustgate",
+    "source": "github"
+  },
+  "version": "1.5.10",
+  "websiteUrl": "https://a2ainfrastructure.com",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "a2a-trustgate",
+      "version": "1.5.10",
+      "transport": {
+        "type": "stdio"
+      },
+      "runtimeHint": "npx",
+      "runtimeArguments": [
+        {
+          "type": "positional",
+          "value": "mcp-serve",
+          "isRequired": true
+        }
+      ],
+      "environmentVariables": [
+        {
+          "name": "A2A_API_KEY",
+          "description": "A2A TrustGate API key (a2a_...). Optional: without a key the server starts and can guide signup; most tools require a key to call the firewall.",
+          "isRequired": false,
+          "isSecret": true
+        },
+        {
+          "name": "A2A_URL",
+          "description": "Base URL of the A2A TrustGate API. Defaults to https://a2ainfrastructure.com.",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "sse",
+      "url": "https://mcp.a2ainfrastructure.com/sse",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer token using your A2A TrustGate API key: 'Bearer a2a_...'. Optional — connect keyless to start in onboarding mode and self-provision a tenant in-session.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

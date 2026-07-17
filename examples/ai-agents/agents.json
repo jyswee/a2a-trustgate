@@ -1,0 +1,12 @@
+{
+  "$comment": "Sample multi-agent workspace. Each agent gets a role and a scope; A2A screens every action against the tenant policy and the agent's scope.",
+  "workspace": "research-swarm",
+  "agents": [
+    { "name": "planner",   "role": "expert",  "scope": "read,plan" },
+    { "name": "coder",     "role": "worker",  "scope": "read,write,build" },
+    { "name": "reviewer",  "role": "auditor", "scope": "read,comment" }
+  ],
+  "channels": [
+    { "name": "ops-bus", "members": ["planner", "coder", "reviewer"] }
+  ]
+}

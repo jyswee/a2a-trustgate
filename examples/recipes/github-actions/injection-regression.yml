@@ -1,0 +1,35 @@
+# Prompt-injection regression gate for CI.
+#
+# Drop this at .github/workflows/injection-regression.yml. It replays the labelled
+# prompt-injection corpus through the gate and FAILS the build if agreement with the
+# ground-truth labels drops below a threshold — so a change that weakens your
+# guardrail (or a downgraded model/policy) can't merge unnoticed.
+#
+# Point it at the shipped corpus, or swap in your own *.jsonl in the same shape.
+# Set repo secret A2A_API_KEY (an a2a_… key). Screening only inspects — nothing runs.
+
+name: injection-regression
+on:
+  pull_request:
+  schedule:
+    - cron: "0 6 * * 1"   # weekly drift check
+  workflow_dispatch:
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install A2A TrustGate
+        run: npm install -g a2a-trustgate
+
+      - name: Replay injection corpus (fail under 90% agreement)
+        env:
+          A2A_API_KEY: ${{ secrets.A2A_API_KEY }}
+        working-directory: examples/corpus
+        run: ./run.sh prompt-injections.jsonl --min 90

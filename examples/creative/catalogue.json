@@ -1,0 +1,16 @@
+{
+  "$comment": "A sample rights catalogue. Register works, attach a licence scope, then screen agent requests against it. Shape only — your real catalogue is created via: a2a catalogue create.",
+  "catalogue": "aurora-music-library",
+  "owner": "Aurora Records Ltd",
+  "works": [
+    { "id": "trk-001", "title": "Midnight Signal", "type": "sound-recording", "licence": "sync-non-exclusive", "territories": ["GB", "EU"], "aiTraining": "denied" },
+    { "id": "trk-002", "title": "Paper Cities", "type": "sound-recording", "licence": "sync-non-exclusive", "territories": ["worldwide"], "aiTraining": "denied" },
+    { "id": "img-014", "title": "Cover Art — Paper Cities", "type": "artwork", "licence": "editorial-only", "territories": ["worldwide"], "aiTraining": "denied" },
+    { "id": "lyr-002", "title": "Paper Cities (lyrics)", "type": "literary", "licence": "reproduction-with-credit", "territories": ["GB"], "aiTraining": "opt-in-paid" }
+  ],
+  "defaultPolicy": {
+    "aiTraining": "denied",
+    "requireAttribution": true,
+    "logEveryAccess": true
+  }
+}
