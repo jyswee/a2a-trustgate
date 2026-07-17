@@ -46,6 +46,8 @@ a2a audit export --format csv      # hand a spreadsheet to an auditor
 | **HIPAA** | Security & Privacy Rule access decisions |
 | **Academic integrity / QAA** | Research-ethics and responsible-AI trail |
 
+> **EU AI Act deployer?** Read the [EU AI Act compliance reference](./docs/eu-ai-act.md) — an article-by-article crosswalk (Art. 12 record-keeping, Art. 14 human oversight, Art. 26 deployer obligations) with citations to the official EUR-Lex text. The Regulation becomes generally applicable **2 August 2026**.
+
 ## Enforced before it runs — the 4-gate firewall
 
 Compliance you can prove starts with a control that actually stops things. Every action passes four gates before it's allowed to execute:
