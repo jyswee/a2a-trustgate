@@ -197,6 +197,69 @@ a2a catalogue content-sources
 
 *Watch the full clip: [creative →](https://prodmedia.tyga.host/public/tyga.cloud/landing/a2ainfrastructure.com/icp/creative.mp4)*
 
+### IP aggregators & distributors — onboard an entire catalogue in one command
+
+Represent many rights holders? A distributor or aggregator holds **one** provider key and onboards every artist's repertoire in bulk — each work stamped with an `ownerRef` (the artist's stable id in *your* system) so reads and writes are hard-scoped per rights holder. The same integration works for one artist or a million.
+
+Export your catalogue as CSV (CD Baby, DistroKid and most distributors already do), then:
+
+```bash
+# One-time: get a provider key from your A2A partner account, then
+export A2A_API_KEY=a2a_provider_xxxxxxxx
+
+# Preview the column mapping before writing anything
+a2a ip-aggregator import repertoire.csv --dry-run
+
+# Bulk-import the whole repertoire (idempotent — safe to re-run)
+a2a ip-aggregator import repertoire.csv
+
+a2a ip-aggregator owners                          # every rights holder + work count
+a2a ip-aggregator works --owner-ref crosswinds    # one artist's registered works
+a2a ip-aggregator opt-out --owner-ref crosswinds --all   # bulk AI/TDM opt-out (EU AI Act Art. 53)
+a2a ip-aggregator portal-link --owner-ref crosswinds     # white-label artist portal — drop the artist in, no second login
+a2a ip-aggregator access-log --owner-ref crosswinds      # the provable trail, per artist
+
+# The licensee side (the AI company that wants to use the catalogue):
+a2a ip-aggregator catalogue                              # the licensable catalogue (opted-out works excluded)
+a2a ip-aggregator licensee-link --licensee-ref acme-ai   # white-label licensee portal — browse + request a scoped licence
+```
+
+A CD Baby-style CSV maps automatically — headers like `Artist ID`, `Artist`, `Track Title`, `ISRC`, `TDM Opt-Out` are recognised (override any column with `--owner-ref-col` / `--isrc-col` / `--title-col`):
+
+```csv
+Artist ID,Artist,Track Title,ISRC,TDM Opt-Out
+crosswinds,Crosswinds,All Good Things,USCGH1915861,true
+midnight_owls,Midnight Owls,Neon Rain,GBK4Y2100017,false
+```
+
+`portal-link` mints a short-lived signed handoff URL, so you can embed a **white-label rights portal** straight into your own product — your brand, no A2A login, per-artist isolated. This is the drop-in pattern behind [BandSaaS](https://bandsaas.com); the same one an aggregator embeds for its whole roster. `licensee-link` mints the mirror portal for an AI company (a `licenseeRef`) to browse the licensable `catalogue` and request scoped licences — the artist approves in their own portal, which issues a revocable licence. Both sides stay inside your product.
+
+### Work orders — govern the *authority*, not just the action
+
+The gates prove every action was screened. A **work order** proves the layer above: *who authorised this work, under what authority, toward what outcome* — and binds it to a signed, tamper-evident completion record. This is the enterprise governance layer, sitting directly on top of the 4-gate firewall.
+
+```bash
+# A named human raises a governed directive with RACI + a scope grant
+a2a work-order create --ref WO-2026-0142 --title "Summarise Q3 catalogue" \
+  --directive "Summarise tracks in the Q3 batch for the licensing review" \
+  --accountable jane@label.com --authority "licensing-review-ticket-88" \
+  --domain creative --scope "read,summarise.*"
+
+# --domain applies your sector's profile: network-ops (change request), regulated
+# (work order / Art 4 decision record — authority required), creative (usage
+# authorisation), enterprise-ai (approved use), university (research protocol —
+# ethics ref required), ai-agents (mission). Add sector context with --meta
+# key=value, e.g. --meta grantRef=EPSRC-42 or --meta aiTools=copilot,chatgpt
+
+a2a work-order authorise WO-...     # human sign-off: DRAFT → AUTHORISED (Art. 14)
+a2a work-order attach WO-... TASK   # attach the gated tasks that fulfil it
+a2a work-order complete WO-... --outcome "42 tracks summarised, 0 blocked"
+a2a work-order verify WO-...        # re-derive the hashes — proves nothing was altered
+a2a work-order precedent "summarise catalogue for licensing"   # what was authorised before
+```
+
+Once authorised, the work order's scope grant becomes the **ceiling** of what the job may do — an action outside it is blocked at evaluation time, even if the agent's own role would allow it. The completion record is signed with a key only A2A can reproduce, so an auditor (or the accountable human) can re-verify the whole chain — directive → actions → gate verdicts → outcome — and detect any later tampering.
+
 ### Enterprise AI — govern the tools your staff already use
 
 ChatGPT, Claude, Copilot are already in your building. Register each tool, screen what it's asked to do, and get one audit trail across all of them.
@@ -283,6 +346,7 @@ Setup guide: [MCP quickstart](https://a2ainfrastructure.com/quickstart/mcp).
 - **Channels** — HMAC-signed agent-to-agent messaging, contract-scoped
 - **Devices & sites** — per-device policy, lock, bulk CSV import, and a global killswitch (network-ops)
 - **Catalogues & licences** — register IP, mint scoped licences, access-log every reach (creative / IP owners)
+- **IP aggregator** — one provider key, bulk-import many rights holders' repertoires (CSV), per-artist `ownerRef` isolation + white-label portal links (distributors / aggregators)
 - **AI tools registry** — govern ChatGPT / Claude / Copilot behind one audit trail (enterprise-ai)
 - **Approvals** — human-in-the-loop queue, approve/reject with reason recorded
 - **Audit trail** — immutable, OCSF-native Detection Findings, EU AI Act aligned, exportable as OCSF / CSV / JSON
@@ -293,9 +357,9 @@ Setup guide: [MCP quickstart](https://a2ainfrastructure.com/quickstart/mcp).
 
 | Plan | Price | Screenings / mo | Overage per 1k |
 |------|-------|-----------------|----------------|
-| **Starter** | $19/mo | 5,000 | $1.00 |
-| **Pro** | $99/mo | 100,000 | $0.25 |
-| **Enterprise** | $299/mo | 1,000,000 | $0.10 |
+| **Starter** | $99/mo | 5,000 | $1.00 |
+| **Pro** | $299/mo | 100,000 | $0.25 |
+| **Enterprise** | Custom — priced per account | Unlimited | Agreed per account |
 
 Verified education & research: **Institutional** $79/mo. [Full pricing →](https://a2ainfrastructure.com/pricing).
 
@@ -313,6 +377,16 @@ a2a login            # store globally (~/.a2a/)
 a2a login --local    # store per-project (./.a2a/) — add .a2a/ to .gitignore
 a2a config           # show which config is active
 ```
+
+## Platform operators — `a2a admin`
+
+Self-hosted or platform-operator deployments get a full ops suite behind a separate
+superadmin key (`A2A_SA_KEY` / `--sa-key` — never a tenant API key): tenant lifecycle
+(`tenant-create --theme --password --verify`, `tenant-key` mint), partner management
+(`partner-embed` with incremental `--frame-add`/`--frame-remove`, brand config, secret
+rotation), cross-tenant IP ops (`catalogues`, `catalogue-restamp`, `catalogue-restore`,
+`licences`, `licence-revoke`, `access-log`), deck shares, partner provisions/usage, and
+billing ops (`subscriptions`, `invoices`). Run `a2a admin help` for the full list.
 
 ## Agent Integration
 
