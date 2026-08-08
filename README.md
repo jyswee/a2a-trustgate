@@ -234,6 +234,29 @@ midnight_owls,Midnight Owls,Neon Rain,GBK4Y2100017,false
 
 `portal-link` mints a short-lived signed handoff URL, so you can embed a **white-label rights portal** straight into your own product — your brand, no A2A login, per-artist isolated. This is the drop-in pattern behind [BandSaaS](https://bandsaas.com); the same one an aggregator embeds for its whole roster. `licensee-link` mints the mirror portal for an AI company (a `licenseeRef`) to browse the licensable `catalogue` and request scoped licences — the artist approves in their own portal, which issues a revocable licence. Both sides stay inside your product.
 
+#### Licensee keys — the machine half
+
+`licensee-link` drops a *human* into the portal. A licensee key is the credential the licensee's own **agents** authenticate with, so its usage is attributed to the licensee rather than borrowing the rights holder's key:
+
+```bash
+a2a ip-aggregator licensee-key mint --licensee-ref acme-ai --name "Acme AI"
+a2a ip-aggregator licensee-key list
+a2a ip-aggregator licensee-key revoke <id>      # dies immediately
+
+a2a ip-aggregator usage                          # metered usage, by event
+```
+
+The key is hashed at rest and shown once. It carries **no subscription of its own** — your partner account being active *is* the entitlement, so it dies with it — and it may only `POST /v1/evaluate` with a licence key. Nothing else. That restriction is what makes it safe to hand to an outside company.
+
+Because the licensee authenticates as itself, the access log records the **consuming party** alongside the rights holder:
+
+```
+ALLOW  2026-08-07T10:14:02  owner=crosswinds  licensee=acme-ai  summarise  All Good Things
+DENY   2026-08-07T10:14:09  owner=crosswinds  licensee=acme-ai  reproduce  All Good Things  (Scope exceeded)
+```
+
+Every evaluation — **allowed and denied** — meters back to you, the sponsoring partner, at your per-partner rate. A provable block is the product, so it costs the same evaluation.
+
 ### Work orders — govern the *authority*, not just the action
 
 The gates prove every action was screened. A **work order** proves the layer above: *who authorised this work, under what authority, toward what outcome* — and binds it to a signed, tamper-evident completion record. This is the enterprise governance layer, sitting directly on top of the 4-gate firewall.

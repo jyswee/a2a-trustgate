@@ -1,6 +1,6 @@
 {
   "name": "a2a-trustgate",
-  "version": "1.5.10",
+  "version": "1.5.15",
   "description": "A2A TrustGate CLI — Safety, compliance, and governance for AI agents. Screen every action before it executes.",
   "mcpName": "io.github.jyswee/a2a-trustgate",
   "bin": {
